@@ -1,0 +1,37 @@
+iiiiWhat Is Github ?
+Github is a hosting platform for git repositories. You can put your own Git repos on Github and access them from anywhere and share them with people around the world.
+Beyond hosting repos, Github also provides additional collaboration features that are not native to Git (but are super useful). Basically, Github helps people share and collaborate on repos.
+
+Git :-
+Git is the version control software that runs locally on your machine. You don't need to register for an account. You don't need the internet to use it. You can use Git without ever touching Github.
+
+Github :- 
+Github is a service that hosts Git repositories in the cloud and makes it easier to collaborate with other people. You do need to sign up for an account to use Github. It's an online place to share work that is done using Git.
+
+Why use Github ?
+Obviously backup and collaboration are two things but even beyond that there are some factors that are in favor of github.
+
+1.Open Source Projects
+Today Github is THE home of open source projects on the Internet. Projects ranging from React to Swift are hosted on Github.
+If you plan on contributing to open source projects, you'll need to get comfortable working with Github.
+
+2.Exposure
+Your Github profile showcases your own projects and contributions to others' projects.
+It can act as a sort of resumé that many employers will consult in the hiring process. Additionally, you can gain some attention on the platform for creating or contributing to popular projects.
+
+3.Stay Up To Date
+Being active on Github is the best way to stay up to date with the projects and tools you rely on. Learn about upcoming changes and the decisions/debate behind them.
+
+
+Cloning :-
+
+So far we've created our own Git repositories from scratch, but often we want to get a local copy of an existing repository instead.
+To do this, we can clone a remote repository hosted on Github or similar websites. All we need is a URL that we can tell Git to clone for use.
+For this purpose we have a git command called (git clone <url>). Do remeber this git clone is a git commad not a github specific command as long as you put in a link to a git repository in place of <url> it will be cloned in your pc it doesn't matter if that repository is hosted on github, bitbucket, gitlab or some personal hosting platform.
+So, git clone is not bound to github as of such.
+Finally,
+To clone a repo, simply run git clone Git will retrieve all the files associated with the repository and will copy them to your local machine.
+In addition, Git initializes a new repository on your machine, giving you access to the full Git history of the cloned project.
+NOTE: Always make sure that you're not in a git repository already before running the git clone command using git status cause then you'll be having nested git repositories and that's not good me still have to learn why that's the case.
+In place of <url> just try copying any github repository. 
+
