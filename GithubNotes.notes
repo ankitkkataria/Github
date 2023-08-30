@@ -1,4 +1,4 @@
-iiiiWhat Is Github ?
+What Is Github ?
 Github is a hosting platform for git repositories. You can put your own Git repos on Github and access them from anywhere and share them with people around the world.
 Beyond hosting repos, Github also provides additional collaboration features that are not native to Git (but are super useful). Basically, Github helps people share and collaborate on repos.
 
@@ -24,7 +24,6 @@ Being active on Github is the best way to stay up to date with the projects and 
 
 
 Cloning :-
-
 So far we've created our own Git repositories from scratch, but often we want to get a local copy of an existing repository instead.
 To do this, we can clone a remote repository hosted on Github or similar websites. All we need is a URL that we can tell Git to clone for use.
 For this purpose we have a git command called (git clone <url>). Do remeber this git clone is a git commad not a github specific command as long as you put in a link to a git repository in place of <url> it will be cloned in your pc it doesn't matter if that repository is hosted on github, bitbucket, gitlab or some personal hosting platform.
@@ -34,4 +33,68 @@ To clone a repo, simply run git clone Git will retrieve all the files associated
 In addition, Git initializes a new repository on your machine, giving you access to the full Git history of the cloned project.
 NOTE: Always make sure that you're not in a git repository already before running the git clone command using git status cause then you'll be having nested git repositories and that's not good me still have to learn why that's the case.
 In place of <url> just try copying any github repository. 
+
+Permissions ?
+Anyone can clone a repository from Github, provided the repo is public. You do not need to be an owner or collaborator to clone the repo locally to your machine. You just need the URL from Github. If you can see a repo that's mean it's public otherwise you won't even have been able to access it anyways.
+Pushing up your own changes to the Github repo...that's another story entirely. You need permission to do that cause then anyone can delete the entire repository after cloning and push!
+
+One more thing :-
+We are not limited to Github Repos. git clone is a standard git command. It is NOT tied specifically to Github. We can use it to clone repositories that are hosted anywhere. It just happens that most of the hosted repos are on Github these days.
+
+How Do I Get My Code On Github ?
+
+There are two ways :-
+Option 1 :- Existing Repo
+If you already have an existing repo locally that you want to get on Github„.
+Then we shall go by this procedure :-
+• Create a new repo on Github
+• Connect your local repo (add a remote)
+• Push up your changes to Github
+
+Option 2 :- Start From Scratch
+If you haven't begun work on your local repo, you can...
+• Create a brand new repo on Github
+• Clone it down to your machine (Then it will automatically know which github repo it's connected to and you won't have to do that manually.)
+• Do some work locally
+• Push up your changes to Github
+
+Remote :- 
+Before we can push anything up to Github, we need to tell Git about our remote repository on Github. We need to setup a "destination" to push up to.
+In Git, we refer to these "destinations" as remotes (You can think of it as remote repositories). Each remote is simply a URL where a hosted repository lives.
+
+Viewing Remotes :-
+To view any existing remotes for your repository, we can run
+git remote or git remote -v (verbose, for more info)
+This just displays a list of remotes. If you haven't added
+any remotes yet, you won't see anything!
+
+Adding A New Remote :-
+A remote is really two things: a URL and a label. (label is just a pnemonic or other a variable that means the same thing as that url so instead of saying git push <url> you can just write git push origin (origin is commonly a name given to remotes/remote repositories))
+To add a new remote, we need to provide both to Git.
+git remote add <name> <url> // name can be anything it need not be origin similarly for url it can be anything also.
+We use git remote add <name> <url> from repositories that are already existing in your local machine and you'd like them to be connected to some github repository.
+Example :-
+git remote add origin https://github.com/blah/repo.git
+This is basically saying,
+Okay Git, anytime I use the name "origin", I'm referring to this particular Github repo URL.
+
+Origin?
+Origin is a conventional Git remote name, but it is not at all special. It's just a name for a URL
+When we clone a Github repo, the default remote name setup for us is called origin. You can change it. Most people leave it.
+
+Example :- (Not used commonly)
+git remote add mygithuburl https://github.com/blah/repo.git
+This is basically saying,
+Okay Git, anytime I use the name "mygithuburl", I'm referring to this particular Github repo URL.
+
+After you add a remote (remote repository) using the git remote add command in order to check if it got successfully added :-
+Try viewing your remotes with git remote -v, and you should now see a remote showing up. 
+Remember, by setting up a remote we are just telling Git about a remote repository URL. We have not "communicated" with the Github repo at all yet.
+
+Other commands
+They are not commonly used, but there are commands to rename and delete remotes if needed. (All this remotes means is just URLs that your local project is aware of like my project knows my remote/remote_url is nothing but origin (Which in itself is representation of a URL)).
+git remote rename <old name><space><new name>
+git remote remove <name> // If you would like to remove a remote you can use this command.
+
+// Something we will see later is that it's common for projects to have multiple remotes. So, you might even have to remove a remote if needed. That's where these commands come in.
 
