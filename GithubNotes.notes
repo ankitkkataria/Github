@@ -63,10 +63,8 @@ Before we can push anything up to Github, we need to tell Git about our remote r
 In Git, we refer to these "destinations" as remotes (You can think of it as remote repositories). Each remote is simply a URL where a hosted repository lives.
 
 Viewing Remotes :-
-To view any existing remotes for your repository, we can run
-git remote or git remote -v (verbose, for more info)
-This just displays a list of remotes. If you haven't added
-any remotes yet, you won't see anything!
+To view any existing remotes for your repository, we can run git remote or git remote -v (verbose, for more info)
+This just displays a list of remotes. If you haven't added any remotes yet, you won't see anything!
 
 Adding A New Remote :-
 A remote is really two things: a URL and a label. (label is just a pnemonic or other a variable that means the same thing as that url so instead of saying git push <url> you can just write git push origin (origin is commonly a name given to remotes/remote repositories))
@@ -78,8 +76,8 @@ git remote add origin https://github.com/blah/repo.git
 This is basically saying,
 Okay Git, anytime I use the name "origin", I'm referring to this particular Github repo URL.
 
-Origin?
-Origin is a conventional Git remote name, but it is not at all special. It's just a name for a URL
+Why Origin ?
+Origin is a conventional Git remote name, but it is not at all special. It's just a name for a URL.
 When we clone a Github repo, the default remote name setup for us is called origin. You can change it. Most people leave it.
 
 Example :- (Not used commonly)
@@ -87,14 +85,36 @@ git remote add mygithuburl https://github.com/blah/repo.git
 This is basically saying,
 Okay Git, anytime I use the name "mygithuburl", I'm referring to this particular Github repo URL.
 
-After you add a remote (remote repository) using the git remote add command in order to check if it got successfully added :-
+After you add a remote (remote repository) using the git remote add command in order to check if it got successfully added :-      
 Try viewing your remotes with git remote -v, and you should now see a remote showing up. 
 Remember, by setting up a remote we are just telling Git about a remote repository URL. We have not "communicated" with the Github repo at all yet.
 
-Other commands
+Some other commands :- 
 They are not commonly used, but there are commands to rename and delete remotes if needed. (All this remotes means is just URLs that your local project is aware of like my project knows my remote/remote_url is nothing but origin (Which in itself is representation of a URL)).
 git remote rename <old name><space><new name>
 git remote remove <name> // If you would like to remove a remote you can use this command.
 
 // Something we will see later is that it's common for projects to have multiple remotes. So, you might even have to remove a remote if needed. That's where these commands come in.
 
+Pushing :- 
+Now that we have a remote set up, let's push some work up to Github!
+To do this, we need to use the git push command.
+We need to specify the remote(remote repo) we want to push up to AND the specific local branch we want to push up to that remote.
+Syntax:- git push <remote/remote-repo> <local-branch-name> // There can be multiple remotes too that's why that can also be set which remote would you like to push your code upto. Second thing is the branch you might not want to push all the branches of your project upto github that's why you can also specify even which specific branch you'd like to push up.
+Example:- git push origin main // This line will push the main branch of our project to the origin remote (again by remote I mean remote repository). Ofcourse I'm assuming that my remote/remote repo is named origin. One more thing is that you don't need to be on the branch that you're pushing upto github while being on main branch you can push other branches as well and vice-versa it's just common that people switch to the branch that they are pushing just to see what exactly they are pushing.
+
+This is something that I found about -u option later we will learn about it from Colt as well.
+One thing you might note is when you look at github and when it's tutoring you on how to push your existing repo you might notice a -u flag (git push -u origin main) what does it do ?
+In simple terms :-
+Technically, the -u flag adds a tracking reference to the upstream server you are pushing to.
+What is important here is that this lets you do a git pull without supplying any more arguments. For example, once you do a git push -u origin master, you can later call git pull and git will know that you actually meant git pull origin master. 
+Otherwise, you'd have to type in the whole command. 
+So, git push -u origin main is the same as git push origin main ; git branch --set-upstream main origin/main.
+If you forget to use the -u option, type git push -u immediately will be OK.
+
+Please go through these slides as well :- https://www.canva.com/design/DAEPtdekgz0/L9rfbid7gCFMGEZBLJcmlw/view?utm_content=DAEPtdekgz0&utm_campaign=designshare&utm_medium=link&utm_source=sharebutton
+
+Normally what people do is they don't push every single branch that they make locally to github rather what they do is they clone the project make a new branch other than the main branch and then they just go ahead and make the changes that they need to make and merge it with the main branch and then just push things.
+But obviously that's not something that's necessary to do you can also push whatever branch of your project you'd like.
+
+git branch -m main or git branch -M main can be used to change the master branch's name to main. (If you go and make a empty repo in github and then clone it will by default have the first branch called main not master.)
