@@ -143,5 +143,7 @@ Again you can make a new branch from there or look around whatever you can when 
 Now, To switch back to where you were before detached HEAD state just type git switch -
 If you do git push now all these changes/commits will be synced up with the remote repo.
 And since you just communicated with the remote repo the remote tracking branch will also be moved to the latest commit.
-And if you type git status now it will say working tree clean with origin/master which basically means all synced up.
+And if you type git status now it will say your branch is up to date with 'origin/main'.
+
+
 
