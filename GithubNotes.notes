@@ -96,7 +96,7 @@ git remote remove <name> // If you would like to remove a remote you can use thi
 
 // Something we will see later is that it's common for projects to have multiple remotes. So, you might even have to remove a remote if needed. That's where these commands come in.
 
-Pushing :- 
+Pushing :-
 Now that we have a remote set up, let's push some work up to Github!
 To do this, we need to use the git push command.
 We need to specify the remote(remote repo) we want to push up to AND the specific local branch we want to push up to that remote.
@@ -118,3 +118,30 @@ Normally what people do is they don't push every single branch that they make lo
 But obviously that's not something that's necessary to do you can also push whatever branch of your project you'd like.
 
 git branch -m main or git branch -M main can be used to change the master branch's name to main. (If you go and make a empty repo in github and then clone it will by default have the first branch called main not master.)
+
+
+Fetching/Pulling
+Slides :- https://www.canva.com/design/DAEPyYicrxQ/EaXIXD_WWryEq7Z7YUSVlg/view?utm_content=DAEPyYicrxQ&utm_campaign=designshare&utm_medium=link&utm_source=sharebutton
+
+Note: When you do git clone something.
+      You get your entire branches on top that you get your branch reference like master which points to a commit. And let's say you only have one branch called master on the remote repo origin. 
+      But along with the normal master branch reference you also get a Remote Tracking Branch Reference. Which is nothing but a reference to the state of the master branch on the remote/remote repo. I can't move this myself. It's like a bookmark pointing to the last known commit on the master branch on origin.
+
+Remote Tracking Branches :-
+"At the time you last communicated with this remote repository, here is where x branch was pointing"
+They follow this pattern <remote>/<branch>.
+• origin/master references the state of the master branch on the remote repo named origin.
+• upstream/logoRedesign references the state of the logoRedesign branch on the remote named upstream (a common remote name).
+
+To see your remote tracking branches just type git remote -r.
+
+When you clone it both the references will be pointing at the same commit.
+But when you just go ahead and make more commits locally only your local branch reference will move not the remote one.
+And when you type git status it will show you're this many commits ahead of 'origin/master' (which is nothing but the master branch on the remote origin)
+If you do git checkout origin/master it will take you to the detached HEAD state and make the HEAD point to the remote tracking branch reference.
+Again you can make a new branch from there or look around whatever you can when you are normally in the detached HEAD state.
+Now, To switch back to where you were before detached HEAD state just type git switch -
+If you do git push now all these changes/commits will be synced up with the remote repo.
+And since you just communicated with the remote repo the remote tracking branch will also be moved to the latest commit.
+And if you type git status now it will say working tree clean with origin/master which basically means all synced up.
+
