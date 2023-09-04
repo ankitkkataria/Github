@@ -26,7 +26,7 @@ Being active on Github is the best way to stay up to date with the projects and 
 Cloning :-
 So far we've created our own Git repositories from scratch, but often we want to get a local copy of an existing repository instead.
 To do this, we can clone a remote repository hosted on Github or similar websites. All we need is a URL that we can tell Git to clone for use.
-For this purpose we have a git command called (git clone <url>). Do remeber this git clone is a git commad not a github specific command as long as you put in a link to a git repository in place of <url> it will be cloned in your pc it doesn't matter if that repository is hosted on github, bitbucket, gitlab or some personal hosting platform.
+For this purpose we have a git command called (git clone <url>). Do remember this git clone is a git commad not a github specific command as long as you put in a link to a git repository in place of <url> it will be cloned in your pc it doesn't matter if that repository is hosted on github, bitbucket, gitlab or some personal hosting platform.
 So, git clone is not bound to github as of such.
 Finally,
 To clone a repo, simply run git clone Git will retrieve all the files associated with the repository and will copy them to your local machine.
