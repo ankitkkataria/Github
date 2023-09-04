@@ -145,5 +145,101 @@ If you do git push now all these changes/commits will be synced up with the remo
 And since you just communicated with the remote repo the remote tracking branch will also be moved to the latest commit.
 And if you type git status now it will say your branch is up to date with 'origin/main'.
 
+Let's say your project on github has a lot of branches.
+And you just go ahead and clone it.
+Will you get all the branches on your local machine too ?
+Nope, Initially you'll only get the default branch whatever that may be main/master/whatever.
+Say for example your project has two branches master and puppies.
+Now you clone it.
+Once you've cloned a repository, we have all the data and Git history for the project at that moment in time.
+However, that does not mean it's all in my workspace!
+The github repo has a branch called puppies, but when I run git branch I don't see it on my machine. All I see is the master branch. What's going on ?
+That's cause you'll only have the dafault branch initially.
+But if you type git branch -r you'll see both the branches. So, Our local branches that were added after it was fetched or cloned nor will it show git origin/master for example has moved at all cause it really doesn't have any idea of what happend in the rempte branch after you  know about the remote branches.got this work in your local repo.
+By default, my master branch is already tracking origin/ master. I didn't connect these myself!
+But I don't have a puppies branch locally that's connected to the origin/puppies.
+One thing I can do is do git checkout origin/puppies locally that will take me in detached HEAD state and I'll be able to see whatever is on that branch but I still can't make commits like I can on the master branch and have it show oh you're 1 commit ahead of origin/master.
+With checkout you can only see what was there or make a new branch from that point.
+But If you want to have a local puppies branch that's connected to origin/puppies just use git switch puppies.
+What that will do is if there is a remote branch by the name of puppies it will just go ahead and get the puppies branch to your pc locally and have it connected to the origin/puppies.
+But if no branch by the name of puppies exist either locally or on origin it will show reference error.
+So, just run git switch <remote-branch-name> to create a new local branch from the remote branch of the same name. git switch puppies makes me a local puppies branch AND sets it up to track the remote branch origin/ puppies. After this command you'll be switched to puppies branch locally too.
+
+NOTE!
+The new command git switch makes this super easy to do!
+It used to be slightly more complicated using git checkout.
+git checkout --track origin/puppies
+
+This is what you'll see when you type git switch puppies if a puppies remote branch exists.
+Switched to a new branch 'puppies'
+branch 'puppies' set up to track 'origin/puppies'.
+
+Fetching :- Must go through slides.
+Let's say you have a github repo with 2 commits.
+And you clone it you'll get both those commits in your local repo too.
+Now let's say you add another commit locally.
+And during this duration someone added a few commits to the github repo to the same branch also.
+Now if you do git pull it might have issues merging with your local files.
+But that's where git fetch comes in.
+Again please go through the slides.
+
+Fetching allows us to download changes from a remote repository, BUT those changes will not be automatically integrated into our working files.
+It lets you see what others have been working on, without having to merge those changes into your local repo.
+Think of it as "please go and get the latest information from Github, but don't screw up my working directory."
+It will just give you another branch of the latest commits that will be separate from the current commits to see this in action just look at the slides. You can now use it to checkout and see what changes were made by going into detached HEAD state.
+This way it doesn't mess up your working directory.
+
+The git fetch <remote> command fetches branches and history from a specific remote repository. It only updates remote tracking branches.
+git fetch origin would fetch all changes from the origin remote repository.
+git fetch <remote>
+If not specified, <remote> defaults to origin.
+Doing this will fetch all the remote branches.
+
+We can also fetch a specific branch from a remote using git fetch <remote> <branch>
+For example, git fetch origin master would retrieve the latest information from the master branch on the origin remote repository.
+
+git fetch doesn't just help us in the case where we have extra commits on the remote repo and we just would like to see what those changes are.
+
+One more thing git fetch can be used for is like let's say someone added an new branch on remote repo now your local repo really has no idea about it even if you type git branch -r it will still show you the old information as it only shows you the information it had stored when you cloned it.
+But if you type git fetch origin or git fetch (as it defaults to origin anyways)
+It will fetch the latest information not just about the branches we have but also about these new branches that were not there before.
+Now you can type git branch -r and it will show you the new remote branches.
+Now you can just do git switch origin/newBranchName and it will be accessed locally.
+
+After you do git fetch origin puppies it will bring the latest changes that were made in the remote repo and put them in your local repo (by local repo I mean the .git folder) but not in the working directory.
+You can now just go ahead and do git checkout origin/puppies to see the newly fetched changes and what they looked like.
+Then when you go and do git switch - you'll be taken back to where you were again.
+
+One thing to remember is when you do git clone or git fetch it stores the latest information about this repo in the .git folder after that any changes that occur in the remote repo it really doesn't have any idea.
+So, even if you do git branch -r it won't show you the new branches that were added after it was fetched or cloned nor will it show git origin/master for example has moved at all cause it really doesn't have any idea of what happend in the rempte branch after you got this work in your local repo.
+
+Pulling :-
+git pull is another command we can use to retrieve changes from a remote repository. Unlike fetch, pull actually updates our HEAD branch with whatever changes are retrieved from the remote. 
+"Go and download data from Github AND immediately update my local repo with those changes"
+
+So, Basically
+git pull = git fetch + git merge
+By git fetch I mean update the remote tracking branch with the latest changes from the remote repository in my local repository.
+By git merge I mean update my current branch with whatever changes are on the remote tracking branch.
+
+git pull :-
+To pull, we specify the particular remote and branch we want to pull using git pull <remote> <branch>. Just like with git merge, it matters WHERE we run this command from. Whatever branch we run it from is where the changes will be merged into.
+git pull origin master would fetch the latest information from the origin's master branch and merge those changes into our current branch whichever we're currently on.
+
+git pull can sometimes lead to merge conflicts as well if there are updates in my local directory in some file and in the same file someone else might have done some work and pushed it to github.
+To deal with this resolve the merge conflicts normally and then add and commit the changes.
+Once commited you can go ahead and push your changes.
+
+Now, One more thing before you do git push on anything it's a good practice to do git pull before that just so we are sure there weren't any changes that we would want to include in our push.
+So, first do git pull and then do git push that's a good practice to go by.
+
+An even easier syntax for git pull!
+If we run git pull without specifying a particular remote or branch to pull from, git assumes the following :-
+• remote will default to origin
+• branch will default to whatever tracking connection (origin/puppies) is configured for your current branch (puppies).
+Note: This behavior can be configured, and tracking connections can be changed manually. Most people dont mess with that stuff.
+
+The syntax git pull origin master is certainly important when you have more than 1 remotes.
+Like you might want to do git pull upstream master. (But git pull directly will just assume origin).
 
 
