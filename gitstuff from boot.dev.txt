@@ -1,0 +1,136 @@
+-- Git Rebase 
+Git rebase allows you to move an entire branch to the tip of the other branch.
+You run this from the branch you want to move the commits from.
+For ex- from feature branch you will run git rebase main that will move all the commits from feature branch to main.
+
+-- Git Reset
+Git reset --soft (commit hash or Head~x) command just deletes the last commit without deleting the changes you made.
+Git reset --hard (commit hash or Head~x) command deletes all the changes along with the commit (one thing to note is say you made a change to a file that was being tracked by git before those changes will be deleted but say there was a file that wasn't even tracked by it that file won't be deleted cause the last commit didn't have any history of it anyways).
+You don't have to use git reset --hard only after to make a commit say you made some changes that you don't find to be that useful you can just write git reset --hard it will just take you to the last commit you made undoing all the changes in tracked files atleast.
+
+-- Git Ignore
+.gitignore can have stuff either files or folders that you want to exclude from git tracking
+.git/info/exclude is a file that you can add random stuff to and those things will be ignored locally from being tracked(The point of that is let's say you make up things like temp and you output some data from you program into it like ./a.out > temp but you don't want to put temp into .gitignore cause that file will be seen by everyone cause your .git/info/exclude doesn't get pushed to the github repo).
+
+
+-- Git Reflog 
+-- A use case for git reflog down below
+
+git reflog
+e0aedc3 (HEAD -> main, origin/add_contrib) HEAD@{0}: checkout: moving from add_contrib to main
+e0aedc3 (HEAD -> main, origin/add_contrib) HEAD@{1}: checkout: moving from main to add_contrib
+e0aedc3 (HEAD -> main, origin/add_contrib) HEAD@{2}: commit: add myself as contributor
+0d16f95 (origin/main, origin/HEAD) HEAD@{3}: clone: from https://github.com/ankitkkataria/megacorp.git
+
+gsw -c slander
+Switched to a new branch 'slander'
+
+ls
+ contributors   customers   orgs   scripts   README.md
+
+nvim slander.md (adding some contants here)
+gaa
+gcm "slander"
+[slander a7d1582] slander
+ 1 file changed, 1 insertion(+)
+ create mode 100644 slander.md
+
+ls
+ contributors   customers   orgs   scripts   README.md   slander.md
+
+git reflog
+a7d1582 (HEAD -> slander) HEAD@{0}: commit: slander
+e0aedc3 (origin/add_contrib, main) HEAD@{1}: checkout: moving from main to slander
+e0aedc3 (origin/add_contrib, main) HEAD@{2}: checkout: moving from add_contrib to main
+e0aedc3 (origin/add_contrib, main) HEAD@{3}: checkout: moving from main to add_contrib
+e0aedc3 (origin/add_contrib, main) HEAD@{4}: commit: add myself as contributor
+0d16f95 (origin/main, origin/HEAD) HEAD@{5}: clone: from https://github.com/ankitkkataria/megacorp.git
+
+gsw -
+Switched to branch 'main'
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+ls
+ contributors   customers   orgs   scripts   README.md
+
+git branch -D slander
+Deleted branch slander (was a7d1582).
+
+git reflog
+e0aedc3 (HEAD -> main, origin/add_contrib) HEAD@{0}: checkout: moving from slander to main
+a7d1582 HEAD@{1}: commit: slander
+e0aedc3 (HEAD -> main, origin/add_contrib) HEAD@{2}: checkout: moving from main to slander
+e0aedc3 (HEAD -> main, origin/add_contrib) HEAD@{3}: checkout: moving from add_contrib to main
+e0aedc3 (HEAD -> main, origin/add_contrib) HEAD@{4}: checkout: moving from main to add_contrib
+e0aedc3 (HEAD -> main, origin/add_contrib) HEAD@{5}: commit: add myself as contributor
+0d16f95 (origin/main, origin/HEAD) HEAD@{6}: clone: from https://github.com/ankitkkataria/megacorp.git
+
+gsw -c recoveringSlander
+Switched to a new branch 'recoveringSlander'
+ls
+ contributors   customers   orgs   scripts   README.md
+
+git reflog
+e0aedc3 (HEAD -> recoveringSlander, origin/add_contrib, main) HEAD@{0}: checkout: moving from main to recoveringSlander
+e0aedc3 (HEAD -> recoveringSlander, origin/add_contrib, main) HEAD@{1}: checkout: moving from slander to main
+a7d1582 HEAD@{2}: commit: slander
+e0aedc3 (HEAD -> recoveringSlander, origin/add_contrib, main) HEAD@{3}: checkout: moving from main to slander
+e0aedc3 (HEAD -> recoveringSlander, origin/add_contrib, main) HEAD@{4}: checkout: moving from add_contrib to main
+e0aedc3 (HEAD -> recoveringSlander, origin/add_contrib, main) HEAD@{5}: checkout: moving from main to add_contrib
+e0aedc3 (HEAD -> recoveringSlander, origin/add_contrib, main) HEAD@{6}: commit: add myself as contributor
+0d16f95 (origin/main, origin/HEAD) HEAD@{7}: clone: from https://github.com/ankitkkataria/megacorp.git
+
+git merge a7d1582
+Updating e0aedc3..a7d1582
+Fast-forward
+ slander.md | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 slander.md
+
+ls
+ contributors   customers   orgs   scripts   README.md   slander.md
+(As you can see using reflog we got back the deleted change)
+
+-- One other way of doing the same thing
+
+git switch main
+Switched to branch 'main'
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+git branch -D recoveringSlander 
+Deleted branch recoveringSlander (was a7d1582).
+
+ls
+ contributors   customers   orgs   scripts   README.md
+
+git reflog
+e0aedc3 (HEAD -> main, origin/add_contrib) HEAD@{0}: checkout: moving from recoveringSlander to main
+a7d1582 HEAD@{1}: merge a7d1582: Fast-forward
+e0aedc3 (HEAD -> main, origin/add_contrib) HEAD@{2}: checkout: moving from main to recoveringSlander
+e0aedc3 (HEAD -> main, origin/add_contrib) HEAD@{3}: checkout: moving from slander to main
+a7d1582 HEAD@{4}: commit: slander
+e0aedc3 (HEAD -> main, origin/add_contrib) HEAD@{5}: checkout: moving from main to slander
+e0aedc3 (HEAD -> main, origin/add_contrib) HEAD@{6}: checkout: moving from add_contrib to main
+e0aedc3 (HEAD -> main, origin/add_contrib) HEAD@{7}: checkout: moving from main to add_contrib
+e0aedc3 (HEAD -> main, origin/add_contrib) HEAD@{8}: commit: add myself as contributor
+0d16f95 (origin/main, origin/HEAD) HEAD@{9}: clone: from https://github.com/ankitkkataria/megacorp.git
+
+git cat-file -p a7d1582
+tree 1047247e570df5bb523d6ecd88b82614c1f9976c
+parent e0aedc36241bd5ba61eadb2d895e5002d125fc2a
+author ankitkkataria <ankitkkataria@gmail.com> 1750598271 +0530
+committer ankitkkataria <ankitkkataria@gmail.com> 1750598271 +0530
+slander
+
+git cat-file -p 1047247e570df5bb523d6ecd88b82614c1f9976c
+100644 blob 13b4fae17d1b50828697a36c4ab337039018a35e	README.md
+040000 tree f4b451ad0aa5c63374faa2b345be4c5f522bdda7	contributors
+040000 tree f408a5791812c598240e2e5e30759675a33957e8	customers
+040000 tree 3f24c2dac3af70dc3af6713f686d4f57d9608a42	orgs
+040000 tree 87e79e11ffc811016818fe57ab91fac55cb5a8b8	scripts
+100644 blob 6f6b544d1a3605ed85b3645784e2773e3564fc25	slander.md
+
+git cat-file -p 6f6b544d1a3605e
+meow meow <--- (now you can copy the file contents from here(-p just pipes the cat output into the terminal normal cat won't work here it is a different cat called git cat-file))
