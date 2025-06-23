@@ -3,6 +3,10 @@ Git rebase allows you to move an entire branch to the tip of the other branch.
 You run this from the branch you want to move the commits from.
 For ex- from feature branch you will run git rebase main that will move all the commits from feature branch to main.
 
+One thing that you will see especially when you run into rebase conflicts is that you first move to the target branch tip and make it the new merge base and then replay your other branch commits so you will find that the <<<<<<<<< HEAD changes will be from your target branch.
+Say you run git rebase main from feature branch it will first move to the main branch and then pick all your new commits from feature branch onto main one by one.
+If there are any conflict in rebasing then till you fix those conflicts you will stay in a detached Head state so don't get confused about that.
+
 -- Git Reset
 Git reset --soft (commit hash or Head~x) command just deletes the last commit without deleting the changes you made.
 Git reset --hard (commit hash or Head~x) command deletes all the changes along with the commit (one thing to note is say you made a change to a file that was being tracked by git before those changes will be deleted but say there was a file that wasn't even tracked by it that file won't be deleted cause the last commit didn't have any history of it anyways).
@@ -92,8 +96,10 @@ ls
  contributors   customers   orgs   scripts   README.md   slander.md
 (As you can see using reflog we got back the deleted change)
 
--- One other way of doing the same thing
+Or you could have done it this way
+git merge HEAD@{2} (You don't even need to copy the commit hash)
 
+-- One other way of doing the same thing but this not common cause it just requires you going into the weeds of git.
 git switch main
 Switched to branch 'main'
 Your branch is ahead of 'origin/main' by 1 commit.
@@ -133,4 +139,35 @@ git cat-file -p 1047247e570df5bb523d6ecd88b82614c1f9976c
 100644 blob 6f6b544d1a3605ed85b3645784e2773e3564fc25	slander.md
 
 git cat-file -p 6f6b544d1a3605e
-meow meow <--- (now you can copy the file contents from here(-p just pipes the cat output into the terminal normal cat won't work here it is a different cat called git cat-file))
+meow meow <--- (now you can copy the file contents from here (-p just pipes the cat output into the terminal normal cat won't work here it is a different cat called git cat-file))
+
+-- Merge Conflicts
+git checkout --theirs path-to-the-file-you-have-merge-confilts-in(as can be seen in git status after a merge conflict arises) 
+The command above will basically take their changes in that file and discard ours.
+git checkout --ours path-to-the-file-you-have-merge-confilts-in(as can be seen in git status after a merge conflict arises) 
+The command above will basically take our changes in that file and discard theirs.
+
+-- Squashing commits
+It's exactly what it sounds like. We take all the changes from a series of commits and squash them into a single commit.
+
+How to Squash? 
+Perhaps confusingly, squashing is done with the git rebase command! Here are the steps to squash the last n commits:
+
+Start an interactive rebase with the command git rebase -i HEAD~n, where n is the number of commits you want to squash.
+Git will open your default editor with a list of commits. Change the word pick to squash for all but the first commit.
+Save and close the editor.
+The -i flag stands for "interactive," and it allows us to edit the commit history before Git applies the changes. HEAD~n is how we reference the last n commits. HEAD points to the current commit (as long as we're in a clean state) and ~n means "n commits before HEAD."
+
+Why Does Rebase Squash?
+Remember, rebase is all about replaying changes. When we rebase onto a specific commit (HEAD~n), we're telling Git to replay all the changes from the current branch on top of that commit. Then we use the interactive flag to "squash" those changes so that Rebase will apply them all in a single commit.
+
+-- Git Stash
+Git stash takes your changes in the worktree (or tracked files) no matter if they were staged or not staged and just stores it in a stack somewhere and later you can pop it off.
+People use it when let's say you have to pull on a branch from remote to get the new changes but the current changes aren't that much for you to make a proper commit so you temporarily stash these changes run git pull and then git stash pop.
+People also do it for stashing changes while switching branches
+
+git stash list (lists out all the stashes you have)
+git stash drop (will remove the most recent stash without applying it to your codebase)
+git stash apply (applies the stash but not pop it from the stack (not sure where this would be used though))
+git stash apply stash{@2} will apply a particular stash to your codebase
+git stash drop{@2}(will drop a particular stash)
