@@ -171,3 +171,100 @@ git stash drop (will remove the most recent stash without applying it to your co
 git stash apply (applies the stash but not pop it from the stack (not sure where this would be used though))
 git stash apply stash{@2} will apply a particular stash to your codebase
 git stash drop{@2}(will drop a particular stash)
+
+-- Git Revert 
+What revert does it takes a commit hash and just removes the changes from that particular commit hash and makes a new commit that doesn't contain that particular commit changes that's it.
+You can just try making a random commit and then try reverting that commit by git revert <commit hash>
+
+-- Git Diff 
+git diff shows you your current worktree changes compared to the last commit
+git diff HEAD~1 shows you your current worktree changes compared to the last commit
+git diff HEAD~2 shows you your current worktree changes compared to the last second commit
+git diff ccommit-hash-1 commit-hash-2 commit shows the difference between these two commits 
+
+-- Git Cherry-Pick 
+git cherry-pick just allows you to pick only a single commit and brings that particular commit changes only to your branch.
+people use it when they don't want to transfer over all the commits from some other branch.
+git cherry-pick --abort aborts a cherry-pick process
+
+-- Git Bisect 
+Git Bisect basically uses binary search to find a commit in which a bug was introduced or a improvement was made or a regressive change was made or a file was introduced etc...
+As long as you can test something quickly for a commit you can just go using binary search to each commit and discard the rest.
+
+How to Bisect
+There are effectively 7 steps to bisecting:
+
+Start the bisect with git bisect start
+Select a "good" commit with git bisect good <commitish> (a commit where you're sure the bug wasn't present)
+Select a bad commit via git bisect bad <commitish> (a commit where you're sure the bug was present)
+Git will checkout a commit between the good and bad commits for you to test to see if the bug is present
+Execute git bisect good or git bisect bad to say the current commit is good or bad
+Loop back to step 4 (until git bisect completes)
+Exit the bisect mode with git bisect reset
+
+-- Down below is an example of me finding where in which commit I added a minifiles.lua file to my directory using git bisect (I had more than 80 commits and if I went through them one by one it would've taken an eternity but with git bisect it only took a few secs)
+
+git bisect start
+
+git bisect bad (for bad commit if you don't provide a commit initially it just takes the latest one)
+
+git bisect good 8f4b09e
+Bisecting: 35 revisions left to test after this (roughly 5 steps)
+[6f4b886926a098690a0005cb6fe4fbf73cbce0a5] really happy with this
+find . -name "minifiles.lua"
+./lua/plugins/minifiles.lua
+
+git bisect bad
+Bisecting: 17 revisions left to test after this (roughly 4 steps)
+[a5464e86e1bda33da4e36217cc1a384f8b63aa65] really happy with this
+find . -name "minifiles.lua"
+./lua/plugins/minifiles.lua
+
+git bisect bad
+Bisecting: 8 revisions left to test after this (roughly 3 steps)
+[0eb7d42b3014c31a6739ba7fb649b8f4b4086c96] fix path for base64 plugin
+find . -name "minifiles.lua"
+
+git bisect good
+Bisecting: 4 revisions left to test after this (roughly 2 steps)
+[c3d1fb646a04aaa97b2929b90269f8a7bf8e8dc4] Update chadrc.lua
+find . -name "minifiles.lua"
+
+git bisect good
+Bisecting: 2 revisions left to test after this (roughly 1 step)
+[85404dcb03bda6badc55cec998b3bdbe76b81138] add example for blink users
+find . -name "minifiles.lua"
+
+git bisect good
+Bisecting: 0 revisions left to test after this (roughly 1 step)
+[e09a25b9fbc47351f987cbd17469e55f5459eead] No need to tinker with NvChad's sourcefiles anymore
+find . -name "minifiles.lua"
+./lua/plugins/minifiles.lua
+
+git bisect bad
+Bisecting: 0 revisions left to test after this (roughly 0 steps)
+[30fb442906c04454f8274890778d1b7c84e4ab7c] Happy with this
+find . -name "minifiles.lua"
+./lua/plugins/minifiles.lua
+
+git bisect bad
+30fb442906c04454f8274890778d1b7c84e4ab7c is the first bad commit
+commit 30fb442906c04454f8274890778d1b7c84e4ab7c
+Author: ankitkkataria <ankitkkataria@gmail.com>
+Date:   Sat May 17 16:30:05 2025 +0530
+
+    Happy with this
+
+ init.lua                  |  18 +++++
+ lazy-lock.json            |  37 ++++++++++
+ lua/chadrc.lua            |   2 +-
+ lua/configs/lspconfig.lua |   9 ++-
+ lua/mappings.lua          | 109 +++++++++++++++++++++++++++--
+ lua/options.lua           |   5 +-
+ lua/plugins/init.lua      |  77 ++++++++++++++++++++-
+ lua/plugins/minifiles.lua | 170 ++++++++++++++++++++++++++++++++++++++++++++++
+ 8 files changed, 415 insertions(+), 12 deletions(-)
+ create mode 100644 lazy-lock.json
+ create mode 100644 lua/plugins/minifiles.lua (As you can see it here is where I created this particular file)
+
+Normally when people find a bad commit they revert it so the changes made in that commit are undoed in the latest commit (I don't know how that would look here in my case)
