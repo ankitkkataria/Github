@@ -268,3 +268,13 @@ Date:   Sat May 17 16:30:05 2025 +0530
  create mode 100644 lua/plugins/minifiles.lua (As you can see it here is where I created this particular file)
 
 Normally when people find a bad commit they revert it so the changes made in that commit are undoed in the latest commit (I don't know how that would look here in my case)
+With git bisect run <shell script> you can even automate this process you can look more into this by looking for an example anywhere.
+
+-- Git Tags
+Git tags allow you to mark a commit with a name usually used with release versions.
+git tag -a v1.0.0 -m "First version of our software" (This will add a new tag with your current latest commit)
+Now when you run git log you will see tags alongside your commits.
+Tags can be used where ever commit hash can be used cause tags are commitish.
+So you can do git checkout v1.0.0 later.
+git push origin --tags (can be used to push your tags to github)
+That's it.
